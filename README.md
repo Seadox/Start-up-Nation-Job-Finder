@@ -48,6 +48,7 @@ options:
 Output:
 
 All the job posts will be saved in a CSV file, which you can easily open and view using software like Excel.
+
 For example:
 
 | Check | ID         | Company | Title                     | Location                                 | Link                                                          | Funding Stage | Is Remote |
