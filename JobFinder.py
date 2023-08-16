@@ -24,13 +24,13 @@ def export_to_csv(output, job_lst):
         output = DEFAULT_DIR
 
     if file_path(output + EXPORT_FILE, 'csv'):
-        ids = get_list_by_cols(output + EXPORT_FILE, ['id'])
+        ids = get_list_by_cols(output + EXPORT_FILE, ['ID'])
 
         with open(output + EXPORT_FILE, 'a', encoding="utf-8-sig", newline='') as output_file:
             writer_object = csv.DictWriter(output_file, keys)
 
             for job in job_lst:
-                if job['id'] not in ids:
+                if job['ID'] not in ids:
                     writer_object.writerow(job)
             output_file.close()
     else:
@@ -133,12 +133,11 @@ def main(argv):
         print("Connected successfully.\nSearching...")
 
         comp = split_list(get_list_by_cols(CONPENIES_FILE, ['Linkedin']), 10)
+        df = pd.read_csv(CONPENIES_FILE, usecols=[
+            'Name', 'Linkedin', 'Funding Stage'])
 
         for compenies in comp:
             jobs = api.search_jobs(companies=compenies, location_name="Israel")
-
-            df = pd.read_csv(CONPENIES_FILE, usecols=[
-                             'Name', 'Linkedin', 'Funding Stage'])
 
             for job in jobs:
                 id = str(job['dashEntityUrn']).split(':')[-1]
