@@ -9,6 +9,7 @@ CONPENIES_FILE = 'compenies.csv'
 EXPORT_FILE = 'exported_jobs.csv'
 TEXT_FILE_FORMAT = 'txt'
 DEFAULT_DIR = '.\\'
+LINKEDIN_JOB_URL = 'https://www.linkedin.com/jobs/search/?currentJobId='
 
 
 def split_list(alist, parts=1):
@@ -143,7 +144,7 @@ def main(argv):
                 id = str(job['dashEntityUrn']).split(':')[-1]
                 title = str(job['title'])
                 remote = job['workRemoteAllowed']
-                link = "https://www.linkedin.com/jobs/search/?currentJobId=" + id
+                link = LINKEDIN_JOB_URL + id
                 location = job['formattedLocation']
                 company = str(job['companyDetails']['company']).split(':')[-1]
 
@@ -158,7 +159,6 @@ def main(argv):
 
         export_to_csv(output, job_lst)
         print("Done.")
-        None
 
 
 if __name__ == "__main__":
