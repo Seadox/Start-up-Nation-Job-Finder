@@ -29,7 +29,7 @@ python .\JobFinder.py -u yourlinkedinemail@email.com -p yourlinkedinpassword
 Help:
 
 ```bash
-usage: Start-up Nation Job Finder [-h] -u USERNAME -p PASSWORD [-wl WORDLIST] [-bl BLACKLIST] [-o OUTPUT]
+usage: Start-up Nation Job Finder [-h] -u USERNAME -p PASSWORD [-wl WORDLIST] [-bl BLACKLIST] [-o OUTPUT] [-ft] [-c] [-pt] [-i]
 
 options:
   -h, --help            show this help message and exit
@@ -43,6 +43,10 @@ options:
                         black list filter
   -o OUTPUT, --output OUTPUT
                         output file path
+  -ft, --fulltime       full time
+  -c, --contract        contract
+  -pt, --parttime       part time
+  -i, --internship      internship
 ```
 
 Output:

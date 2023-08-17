@@ -67,23 +67,16 @@ def get_list_by_cols(file_path, cols):
 
 
 def dir_path(ditPath):
-    if os.path.isdir(ditPath):
-        return ditPath
-    else:
-        raise NotADirectoryError(ditPath)
+    return ditPath if os.path.isdir(ditPath) else False
 
 
 def file_path(filePath, file_format):
-    if os.path.isfile(filePath) and filePath.endswith('.' + file_format):
-        return filePath
-    else:
-        return False
+    return filePath if os.path.isfile(filePath) and filePath.endswith(
+        '.' + file_format) else False
 
 
 def txt_to_list(path):
-    my_file = open(path, "r")
-    data = my_file.read()
-    return data.split("\n")
+    return open(path, "r").read().split("\n")
 
 
 def getArgs(argv):
@@ -96,10 +89,28 @@ def getArgs(argv):
     parser.add_argument('-bl', '--blacklist', help="black list filter")
     parser.add_argument(
         '-o', '--output', help="output file path", type=dir_path)
+    parser.add_argument(
+        '-ft', '--fulltime', help="full time", action="store_true")
+    parser.add_argument(
+        '-c', '--contract', help="contract", action="store_true")
+    parser.add_argument(
+        '-pt', '--parttime', help="part time", action="store_true")
+    parser.add_argument(
+        '-i', '--internship', help="internship", action="store_true")
     args = parser.parse_args()
 
     wordlist = None
     blacklist = None
+    job_type = []
+
+    if (args.fulltime):
+        job_type.append('F')
+    if (args.contract):
+        job_type.append('C')
+    if (args.parttime):
+        job_type.append('P')
+    if (args.internship):
+        job_type.append('I')
 
     if args.blacklist is not None:
         blacklist = txt_to_list(args.blacklist)
@@ -115,11 +126,11 @@ def getArgs(argv):
     password = args.password
     output = args.output
 
-    return username, password, wordlist, blacklist, output
+    return username, password, wordlist, blacklist, output, job_type
 
 
 def main(argv):
-    [username, password, wordlist, blacklist, output] = getArgs(argv)
+    [username, password, wordlist, blacklist, output, job_type] = getArgs(argv)
 
     api = None
     try:
@@ -138,7 +149,8 @@ def main(argv):
             'Name', 'Linkedin', 'Funding Stage'])
 
         for compenies in comp:
-            jobs = api.search_jobs(companies=compenies, location_name="Israel")
+            jobs = api.search_jobs(companies=compenies,
+                                   location_name="Israel", job_type=job_type)
 
             for job in jobs:
                 id = str(job['dashEntityUrn']).split(':')[-1]
