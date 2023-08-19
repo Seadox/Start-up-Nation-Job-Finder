@@ -169,7 +169,10 @@ def main(argv):
                                'Title': title, 'Location': location, 'Link': link, 'Funding Stage': funding_stage, "Is Remote": remote}
                     job_lst.append(job_dic)
 
-        export_to_csv(output, job_lst)
+        if len(job_lst) > 0:
+            export_to_csv(output, job_lst)
+        else:
+            print("Jobs not found")
         print("Done.")
 
 
